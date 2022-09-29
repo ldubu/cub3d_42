@@ -29,7 +29,8 @@ SRCS	= 	sources/main.c \
 			sources/Parsing/texture_rgb.c \
 			sources/Parsing/utils.c \
 			sources/Parsing/valid_map.c \
-			sources/Parsing/valid_walls.c
+			sources/Parsing/valid_walls.c \
+			sources/Parsing/missing_info.c
 
 HEADERS = 	includes/Cub3D.h \
 			includes/Key_binding.h \
@@ -42,13 +43,13 @@ OBJS		= $(addprefix $(OBJS_PATH), $(SRCS:.c=.o))
 DIR_H_PROJECT	= includes/
 DIR_H_LIBFT		= libft/headers/
 DIR_H_MLX		= minilibx/
-IFLAGS 			= -I ${DIR_H_PROJECT} -I ${DIR_H_LIBFT} -I ${DIR_H_MLX}
+IFLAGS 			= -I ${DIR_H_PROJECT} -I ${DIR_H_LIBFT} #-I ${DIR_H_MLX}
 
 DIR_LIBMLX 	= minilibx/
 DIR_LIBFT	= libft/
 DIR_LIBEXT 	= /usr/include/../lib/
 
-LIBRARY	= -L ${DIR_LIBMLX} -lmlx -L ${DIR_LIBEXT} -lXext  -L ${DIR_LIBFT} -lft
+LIBRARY	= -L ${DIR_LIBFT} -lft #-L ${DIR_LIBMLX} -lmlx -L ${DIR_LIBEXT} -lXext 
 LIBFLAG = -lX11 -lm
 
 NAME	= cub3d
@@ -62,7 +63,7 @@ $(OBJS_PATH)%.o: %.c ${HEADERS}
 	@${CC} ${CFLAGS} ${IFLAGS} -c $< -o $@
 	@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"	
 
-all: libft_make minilibx_make ${NAME}
+all: libft_make ${NAME} #minilibx_make
 
 ${NAME}: ${OBJS} ${HEADERS}
 	@printf "%-15s ${_YELLOW}${_BOLD}$<${_END}...\n" "Compiling"	
@@ -73,10 +74,10 @@ libft_make:
 	@make --no-print-directory -C ${DIR_LIBFT}
 libft_clean:
 	@make --silent fclean -C ${DIR_LIBFT}
-minilibx_make:
-	@make --silent -C ${DIR_LIBMLX}
-minilibx_clean:
-	@make --silent clean -C ${DIR_LIBMLX}
+# minilibx_make:
+# 	@make --silent -C ${DIR_LIBMLX}
+# minilibx_clean:
+# 	@make --silent clean -C ${DIR_LIBMLX}
 
 clean:
 	@${RM} ${OBJS}

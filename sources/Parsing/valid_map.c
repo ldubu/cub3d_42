@@ -54,7 +54,7 @@ int	valid_map(int fd, t_map *map)
 			next_line(fd, line);
 		else if (texture_line(line) == 0)
 		{
-			stock_texture(line);
+			stock_texture(line, map);
 			next_line(fd, line);
 		}
 		else if (map_line(line) == 0)

@@ -21,7 +21,8 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <stdint.h>
-# include "mlx.h"
+# include <string.h>
+// # include "mlx.h"
 # include "ft_ctype.h"
 # include "ft_stdio.h"
 # include "ft_string.h"

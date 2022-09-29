@@ -21,7 +21,6 @@ int	free_split_return_1(char **split)
 int	check_rgb(char *rgb)
 {
 	int		i;
-	int		test;
 	char	**split_rgb;
 
 	i = 0;
@@ -84,7 +83,7 @@ int	transform_rgb(char *rgb_color)
 	red = (uint8_t) ft_atoi(split_rgb[0]);
 	green = (uint8_t) ft_atoi(split_rgb[1]);
 	blue = (uint8_t) ft_atoi(split_rgb[2]);
-	return (red << 16 || green << 8 || blue);
+	return (red << 16 | green << 8 | blue);
 }
 
 void	stock_texture(char *line, t_map *map)
@@ -94,17 +93,17 @@ void	stock_texture(char *line, t_map *map)
 	split_line = ft_split(line, ' ');
 	if (!split_line)
 		return ;
-	if (ft_strncmp(&(split_line[0]), "NO", 3))
-		map->texture = split_line[1];
-	if (ft_strncmp(&(split_line[0]), "SO", 3))
-		map->texture = split_line[1];
-	if (ft_strncmp(&(split_line[0]), "WE", 3))
-		map->texture = split_line[1];
-	if (ft_strncmp(&(split_line[0]), "EA", 3))
-		map->texture = split_line[1];
-	if (ft_strncmp(&(split_line[0]), "F", 2))
+	if (ft_strncmp(split_line[0], "NO", 3))
+		map->texture->no_texture = split_line[1];
+	if (ft_strncmp(split_line[0], "SO", 3))
+		map->texture->so_texture = split_line[1];
+	if (ft_strncmp(split_line[0], "WE", 3))
+		map->texture->we_texture = split_line[1];
+	if (ft_strncmp(split_line[0], "EA", 3))
+		map->texture->ea_texture = split_line[1];
+	if (ft_strncmp(split_line[0], "F", 2))
 		map->texture->floor_rgb = transform_rgb(split_line[1]);
-	if (ft_strncmp(&(split_line[0]), "C", 2))
+	if (ft_strncmp(split_line[0], "C", 2))
 		map->texture->ceiling_rgb = transform_rgb(split_line[1]);
 	free_split(split_line);
 }

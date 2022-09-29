@@ -12,8 +12,10 @@
 
 #include "Cub3D.h"
 
-t_direction	which_direction(char c)
+t_direction	which_direction(char c, t_map *map, int x, int y)
 {
+	map->posX = x;
+	map->posY = y;
 	if (c == 'N')
 		return (NORTH);
 	else if (c == 'S')
@@ -25,7 +27,7 @@ t_direction	which_direction(char c)
 	return (NO_DIRECTION);
 }
 
-int	*char_to_int(char *li, t_map *map, int i)
+int	*char_to_int(char *li, t_map *map, int i, int y)
 {
 	int	*tab_line;
 
@@ -44,7 +46,7 @@ int	*char_to_int(char *li, t_map *map, int i)
 			if (map->direction != NO_DIRECTION)
 				return (p_error_map(ERR_MTPL_CHARA, tab_line));
 			else
-				map->direction = which_direction(li[i]);
+				map->direction = which_direction(li[i], map, i, y);
 		}
 		else
 			return (p_error_map(ERR_MTPL_CHARA, tab_line));
@@ -86,13 +88,13 @@ int	**rec_read_map(int fd, int i, t_map *map)
 		return (tab);
 	}
 	else if (!map_line(line))
-		return (p_error_map(ERR_NOT_VALID_LINE, NULL));
+		return (NULL);
 	else
 	{
 		map->width = compare(ft_strlen(line), map->width);
 		tab = rec_read_map(fd, i, map);
 		if (tab)
-			tab[i] = char_to_int(line, map, i);
+			tab[i] = char_to_int(line, map, -1, i);
 		if (!tab || !tab[i])
 			return (NULL);
 		return (tab);
@@ -106,7 +108,7 @@ int	read_map(int fd, char *line, t_map *map)
 	map->map = rec_read_map(fd, 1, map);
 	if (!map->map)
 		return (p_error_int(ERR_MAP, map, fd));
-	map->map[0] = char_to_int(line, map, -1);
+	map->map[0] = char_to_int(line, map, -1, 0);
 	if (map->map[0] == NULL)
 		return (p_error_int(ERR_MALLOC_2, map, fd));
 	if (!valid_walls(map))

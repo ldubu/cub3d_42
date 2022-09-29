@@ -29,6 +29,8 @@ t_map	*p_error(t_error type, char *cub_file, int fd)
 	}
 	else if (type == ERR_NOT_VALID_LINE)
 		printf("Invalid line found in the file\n");
+	else if (type == ERR_MISSING_INFO)
+		printf("Invalid file : missing information\n");
 	return (NULL);
 }
 

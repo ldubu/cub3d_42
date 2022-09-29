@@ -85,6 +85,8 @@ typedef struct s_map
 	int			height;
 	t_texture	*texture;
 	t_direction	direction;
+	int			posX;
+	int			posY;
 }	t_map;
 
 /*Parsing*/
@@ -94,6 +96,11 @@ int		valid_walls(t_map *map);
 int		valid_map(int fd, t_map *map);
 int		valid_walls(t_map *map);
 int		missing_info(t_map *map);
+int		open_file(char *cub_file, int *fd);
+void	stock_texture(char *line, t_map *map);
+int		texture_line(char *line);
+int		read_map(int fd, char *line, t_map *map);
+int		map_line(char *line);
 
 /*Utils*/
 char	*next_line(int fd, char *line);
