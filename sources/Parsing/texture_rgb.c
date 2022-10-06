@@ -45,9 +45,7 @@ int	check_rgb(char *rgb)
 int	texture_line(char *line)
 {
 	char	**split_line;
-	int		i;
 
-	i = 0;
 	split_line = ft_split(line, ' ');
 	if (!split_line)
 		return (-1);
