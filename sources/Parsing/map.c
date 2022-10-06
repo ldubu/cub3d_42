@@ -34,9 +34,9 @@ int	*char_to_int(char *li, t_map *map, int i, int y)
 	tab_line = (int *) malloc(sizeof(int) * (map->width + 1));
 	if (!tab_line)
 		return (NULL);
-	while (li[++i])
+	while (li[++i] && li[i] != '\n')
 	{
-		if (li[i] == ' ' || li[i] == '\n' || li[i] == '\r')
+		if (li[i] == ' ')
 			tab_line[i] = 3;
 		else if (li[i] == '0' || li[i] == '1')
 			tab_line[i] = li[i] - 48;
@@ -51,8 +51,8 @@ int	*char_to_int(char *li, t_map *map, int i, int y)
 		else
 			return (p_error_map(ERR_WRONG_CHARA, tab_line));
 	}
-	while (++i < map->width)
-		tab_line[i] = 3;
+	while (i < map->width)
+		tab_line[i++] = 3;
 	return (tab_line);
 }
 
@@ -61,12 +61,15 @@ int	map_line(char *line)
 	int	i;
 
 	i = 0;
+	if (ft_strncmp(line, "\n", 2) == 0)
+		return (p_error_int(ERR_NOT_VALID_LINE, NULL, -1));
 	while (line[i])
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'E'\
 			&& line[i] != 'W' && line[i] != 'S' && line[i] != ' ' \
-			&& line[i] != '\n' && line[i] != '\r')
+			&& line[i] != '\n')
 		{
+			printf("Error\n");
 			printf("Wrong character %c\n", line[i]);
 			return (1);
 		}
@@ -114,7 +117,7 @@ int	read_map(int fd, char *line, t_map *map)
 	map->map[0] = char_to_int(line, map, -1, 0);
 	if (map->map[0] == NULL)
 		return (p_error_int(ERR_MALLOC_2, map, fd));
-	if (valid_walls(map))
+	if (!valid_walls(map))
 		return (1);
 	return (0);
 }

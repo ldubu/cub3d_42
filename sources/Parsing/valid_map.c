@@ -50,7 +50,7 @@ int	valid_map(int fd, t_map **map)
 		return (p_error_int(ERR_EMPTY_FILE, *map, fd));
 	while (line)
 	{
-		if (ft_strncmp(line, "\r\n", 3) == 0 || ft_strncmp(line, "\n", 2) == 0)
+		if (ft_strncmp(line, "\n", 2) == 0)
 			line = next_line(fd, line);
 		else if (texture_line(line) == 0)
 		{
