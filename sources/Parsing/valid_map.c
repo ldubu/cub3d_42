@@ -38,31 +38,31 @@ t_map	*alloc_map(void)
 	return (map);
 }
 
-int	valid_map(int fd, t_map *map)
+int	valid_map(int fd, t_map **map)
 {
 	char	*line;
 
-	map = alloc_map();
-	if (!map)
+	*map = alloc_map();
+	if (!*map)
 		return (p_error_int(ERR_MALLOC, NULL, fd));
 	line = get_next_line(fd);
 	if (!line)
-		return (p_error_int(ERR_EMPTY_FILE, map, fd));
-	while (!line)
+		return (p_error_int(ERR_EMPTY_FILE, *map, fd));
+	while (line)
 	{
-		if (ft_strncmp(line, "\n", 2) == 0)
-			next_line(fd, line);
+		if (ft_strncmp(line, "\r\n", 3) == 0 || ft_strncmp(line, "\n", 2) == 0)
+			line = next_line(fd, line);
 		else if (texture_line(line) == 0)
 		{
 			stock_texture(line, map);
-			next_line(fd, line);
+			line = next_line(fd, line);
 		}
 		else if (map_line(line) == 0)
 			break ;
 		else
-			return (p_error_int(ERR_NOT_VALID_LINE, map, fd));
+			return (p_error_int(ERR_NOT_VALID_LINE, *map, fd));
 	}
-	if (!read_map(fd, line, map))
+	if (read_map(fd, line, *map))
 		return (1);
 	return (0);
 }

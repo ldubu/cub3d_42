@@ -27,11 +27,11 @@ int	strisint8(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] < '0' || str[i] > '9')
+		if ((str[i] < '0' || str[i] > '9') && (str[i] != '\n') && (str[i] != 13) && (str[i] != 10))
 			return (1);
 		i++;
 	}
-	if (i > 3)
+	if (i > 6)
 		return (1);
 	return (0);
 }

@@ -36,7 +36,7 @@ int	*char_to_int(char *li, t_map *map, int i, int y)
 		return (NULL);
 	while (li[++i])
 	{
-		if (li[i] == ' ')
+		if (li[i] == ' ' || li[i] == '\n' || li[i] == '\r')
 			tab_line[i] = 3;
 		else if (li[i] == '0' || li[i] == '1')
 			tab_line[i] = li[i] - 48;
@@ -49,7 +49,7 @@ int	*char_to_int(char *li, t_map *map, int i, int y)
 				map->direction = which_direction(li[i], map, i, y);
 		}
 		else
-			return (p_error_map(ERR_MTPL_CHARA, tab_line));
+			return (p_error_map(ERR_WRONG_CHARA, tab_line));
 	}
 	while (++i < map->width)
 		tab_line[i] = 3;
@@ -64,10 +64,13 @@ int	map_line(char *line)
 	while (line[i])
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'E'\
-			&& line[i] != 'W' && line[i] != 'S' && line[i] != ' ')
+			&& line[i] != 'W' && line[i] != 'S' && line[i] != ' ' \
+			&& line[i] != '\n' && line[i] != '\r')
 		{
+			printf("Wrong character %c\n", line[i]);
 			return (1);
 		}
+		i++;
 	}
 	return (0);
 }
@@ -87,12 +90,12 @@ int	**rec_read_map(int fd, int i, t_map *map)
 		tab[i] = NULL;
 		return (tab);
 	}
-	else if (!map_line(line))
+	else if (map_line(line))
 		return (NULL);
 	else
 	{
 		map->width = compare(ft_strlen(line), map->width);
-		tab = rec_read_map(fd, i, map);
+		tab = rec_read_map(fd, i + 1, map);
 		if (tab)
 			tab[i] = char_to_int(line, map, -1, i);
 		if (!tab || !tab[i])
@@ -111,7 +114,7 @@ int	read_map(int fd, char *line, t_map *map)
 	map->map[0] = char_to_int(line, map, -1, 0);
 	if (map->map[0] == NULL)
 		return (p_error_int(ERR_MALLOC_2, map, fd));
-	if (!valid_walls(map))
+	if (valid_walls(map))
 		return (1);
 	return (0);
 }

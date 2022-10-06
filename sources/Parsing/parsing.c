@@ -27,9 +27,9 @@ t_map	*parsing(int argc, char **argv, char **envp)
 		return (p_error(ERR_VALID_NAME, argv[1], fd));
 	if (open_file(argv[1], &fd))
 		return (p_error(ERR_VALID_FILE, argv[1], fd));
-	if (!valid_map(fd, map))
+	if (valid_map(fd, &map))
 		return (NULL);
-	if (!missing_info(map))
+	if (missing_info(&map))
 		return (p_error(ERR_MISSING_INFO, NULL, fd));
 	return (map);
 }
