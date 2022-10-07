@@ -81,6 +81,7 @@ int	transform_rgb(char *rgb_color)
 	red = (uint8_t) ft_atoi(split_rgb[0]);
 	green = (uint8_t) ft_atoi(split_rgb[1]);
 	blue = (uint8_t) ft_atoi(split_rgb[2]);
+	free_split(split_rgb);
 	return (red << 16 | green << 8 | blue);
 }
 

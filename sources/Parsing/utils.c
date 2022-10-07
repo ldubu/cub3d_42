@@ -57,6 +57,19 @@ void	free_split(char **split_tab)
 	}
 }
 
+void	free_texture(t_texture *texture)
+{
+	if (texture->no_texture)
+		free(texture->no_texture);
+	if (texture->so_texture)
+		free(texture->so_texture);
+	if (texture->ea_texture)
+		free(texture->ea_texture);
+	if (texture->we_texture)
+		free(texture->we_texture);
+	free(texture);
+}
+
 void	free_map(t_map *map, int i)
 {
 	if (map)
@@ -67,17 +80,19 @@ void	free_map(t_map *map, int i)
 			{
 				if (map->map[i])
 				{
-					free(map->map[i++]);
+					free(map->map[i]);
 					map->map[i] = NULL;
 				}
 				i++;
 			}
+			free(map->map);
 		}
 		if (map->texture)
 		{
-			free(map->texture);
+			free_texture(map->texture);
 			map->texture = NULL;
 		}
+		free(map);
 	}
 }
 

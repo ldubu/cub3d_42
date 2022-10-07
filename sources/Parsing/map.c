@@ -94,15 +94,20 @@ int	**rec_read_map(int fd, int i, t_map *map)
 		return (tab);
 	}
 	else if (map_line(line))
+	{
+		free(line);
 		return (NULL);
+	}
 	else
 	{
 		map->width = compare(ft_strlen(line), map->width);
 		tab = rec_read_map(fd, i + 1, map);
 		if (tab)
 			tab[i] = char_to_int(line, map, -1, i);
+		
 		if (!tab || !tab[i])
 			return (NULL);
+		free(line);
 		return (tab);
 	}
 }
@@ -113,11 +118,21 @@ int	read_map(int fd, char *line, t_map *map)
 		return (p_error_int(ERR_MISSING_MAP, map, fd));
 	map->map = rec_read_map(fd, 1, map);
 	if (!map->map)
+	{
+		free(line);
 		return (p_error_int(ERR_MAP, map, fd));
+	}
 	map->map[0] = char_to_int(line, map, -1, 0);
 	if (map->map[0] == NULL)
+	{
+		free(line);
 		return (p_error_int(ERR_MALLOC_2, map, fd));
+	}
 	if (!valid_walls(map))
+	{
+		free(line);
 		return (1);
+	}
+	free(line);
 	return (0);
 }

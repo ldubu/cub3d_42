@@ -41,5 +41,6 @@ int	main(int argc, char **argv, char **envp)
 			}
 		}
 	}
+	free_map(map, 0);
 	return (0);
 }
