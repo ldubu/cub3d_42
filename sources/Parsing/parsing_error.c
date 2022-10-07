@@ -52,7 +52,7 @@ int	*p_error_map(t_error type, int *tab)
 	return (NULL);
 }
 
-int	p_error_int(t_error type, t_map *map, int fd)
+int	p_error_int(t_error type, t_map *map, int fd, char *line)
 {
 	printf("Error\n");
 	close(fd);
@@ -63,7 +63,10 @@ int	p_error_int(t_error type, t_map *map, int fd)
 	if (type == ERR_EMPTY_FILE)
 		printf("File is empty\n");
 	else if (type == ERR_NOT_VALID_LINE)
-		printf("Invalid line found in the file\n");
+	{
+		printf("Invalid line : %s", line);
+		free(line);
+	}
 	else if (type == ERR_MISSING_INFO)
 		printf("Invalid file : missing information\n");
 	else if (type == ERR_MISSING_MAP)

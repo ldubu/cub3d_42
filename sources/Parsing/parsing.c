@@ -29,8 +29,10 @@ t_map	*parsing(int argc, char **argv, char **envp)
 		return (p_error(ERR_VALID_FILE, argv[1], fd));
 	if (valid_map(fd, &map))
 		return (NULL);
-	printf("ok\n");
 	if (missing_info(&map))
+	{
+		free_map(map, 0);
 		return (p_error(ERR_MISSING_INFO, NULL, fd));
+	}
 	return (map);
 }

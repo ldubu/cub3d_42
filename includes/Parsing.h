@@ -100,7 +100,7 @@ int		open_file(char *cub_file, int *fd);
 void	stock_texture(char *line, t_map **map);
 int		texture_line(char *line);
 int		read_map(int fd, char *line, t_map *map);
-int		map_line(char *line);
+int		map_line(char *line, int j);
 
 /*Utils*/
 char	*next_line(int fd, char *line);
@@ -113,6 +113,6 @@ int		compare(int a, int b);
 
 t_map	*p_error(t_error type, char *cub_file, int fd);
 int		*p_error_map(t_error type, int *tab);
-int		p_error_int(t_error type, t_map *map, int fd);
+int		p_error_int(t_error type, t_map *map, int fd, char *line);
 
 #endif

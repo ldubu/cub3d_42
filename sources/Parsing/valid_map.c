@@ -44,10 +44,10 @@ int	valid_map(int fd, t_map **map)
 
 	*map = alloc_map();
 	if (!*map)
-		return (p_error_int(ERR_MALLOC, NULL, fd));
+		return (p_error_int(ERR_MALLOC, NULL, fd, NULL));
 	line = get_next_line(fd);
 	if (!line)
-		return (p_error_int(ERR_EMPTY_FILE, *map, fd));
+		return (p_error_int(ERR_EMPTY_FILE, *map, fd, NULL));
 	while (line)
 	{
 		if (ft_strncmp(line, "\n", 2) == 0)
@@ -57,10 +57,10 @@ int	valid_map(int fd, t_map **map)
 			stock_texture(line, map);
 			line = next_line(fd, line);
 		}
-		else if (map_line(line) == 0)
+		else if (map_line(line, 0) == 0)
 			break ;
 		else
-			return (p_error_int(ERR_NOT_VALID_LINE, *map, fd));
+			return (p_error_int(ERR_NOT_VALID_LINE, *map, fd, line));
 	}
 	if (read_map(fd, line, *map))
 		return (1);

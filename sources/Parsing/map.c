@@ -56,21 +56,21 @@ int	*char_to_int(char *li, t_map *map, int i, int y)
 	return (tab_line);
 }
 
-int	map_line(char *line)
+int	map_line(char *line, int j)
 {
 	int	i;
 
 	i = 0;
 	if (ft_strncmp(line, "\n", 2) == 0)
-		return (p_error_int(ERR_NOT_VALID_LINE, NULL, -1));
+		return (p_error_int(ERR_NOT_VALID_LINE, NULL, -1, NULL));
 	while (line[i])
 	{
 		if (line[i] != '0' && line[i] != '1' && line[i] != 'N' && line[i] != 'E'\
 			&& line[i] != 'W' && line[i] != 'S' && line[i] != ' ' \
 			&& line[i] != '\n')
 		{
-			printf("Error\n");
-			printf("Wrong character %c\n", line[i]);
+			if (j == 1)
+				printf("Error\nWrong character %c\n", line[i]);
 			return (1);
 		}
 		i++;
@@ -93,7 +93,7 @@ int	**rec_read_map(int fd, int i, t_map *map)
 		tab[i] = NULL;
 		return (tab);
 	}
-	else if (map_line(line))
+	else if (map_line(line, 1))
 	{
 		free(line);
 		return (NULL);
@@ -115,18 +115,18 @@ int	**rec_read_map(int fd, int i, t_map *map)
 int	read_map(int fd, char *line, t_map *map)
 {
 	if (!line)
-		return (p_error_int(ERR_MISSING_MAP, map, fd));
+		return (p_error_int(ERR_MISSING_MAP, map, fd, NULL));
 	map->map = rec_read_map(fd, 1, map);
 	if (!map->map)
 	{
 		free(line);
-		return (p_error_int(ERR_MAP, map, fd));
+		return (p_error_int(ERR_MAP, map, fd, NULL));
 	}
 	map->map[0] = char_to_int(line, map, -1, 0);
 	if (map->map[0] == NULL)
 	{
 		free(line);
-		return (p_error_int(ERR_MALLOC_2, map, fd));
+		return (p_error_int(ERR_MALLOC_2, map, fd, NULL));
 	}
 	if (!valid_walls(map))
 	{
