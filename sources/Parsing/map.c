@@ -40,7 +40,7 @@ int	*char_to_int(char *li, t_map *map, int i, int y)
 			tab_line[i] = 3;
 		else if (li[i] == '0' || li[i] == '1')
 			tab_line[i] = li[i] - 48;
-		else if (li[i] == 'N' || li[i] == 'E' || li[i] == 'W' || li[i] == 's')
+		else if (li[i] == 'N' || li[i] == 'E' || li[i] == 'W' || li[i] == 'S')
 		{
 			tab_line[i] = 2;
 			if (map->direction != NO_DIRECTION)
