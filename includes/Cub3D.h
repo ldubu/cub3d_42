@@ -17,9 +17,6 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <math.h>
-# include <X11/X.h>
-# include <X11/keysym.h>
 # include <stdint.h>
 # include <string.h>
 // # include "mlx.h"
